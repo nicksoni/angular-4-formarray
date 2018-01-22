@@ -1,0 +1,65 @@
+<p>
+  sample-form works!
+</p>
+<form [formGroup]="sampleForm" novalidate (ngSubmit)="submitForm(sampleForm.value)">
+  <div class="table-responsive gsttable">
+    <table class="table table-condensed tablefix table-hover table-bordered">
+      <thead>
+        <tr>
+          <th value="#" colspan="1" rowspan="2" class="text-center">S.No</th>
+          <th value="Description" colspan="1" rowspan="2" class="text-left" width="250">Row1</th>
+          <th value="HSN / SAC" colspan="1" rowspan="2" class="text-center" width="150">Row2</th>
+          <th value="Qty" colspan="1" rowspan="2" class="text-right" width="100">Qty</th>
+          <th value="Taxable Value" colspan="1" rowspan="2" class="text-center" width="150">Row3</th>
+          <th value="Taxable Value" colspan="1" rowspan="2" class="text-center" width="150">Row4</th>
+
+          <th value="Total" colspan="1" rowspan="2" class="fixrow custheight">Total</th>
+        </tr>
+
+
+      </thead>
+      <tbody formArrayName="formArrayList">
+        <tr *ngFor="let hsnList of SampleFormControls.controls;let i = index" [formGroupName]="i">
+          <td align="center"> {{i+1}}</td>
+          <td>
+            <input type="text" class="form-control" formControlName="desc" >
+          </td>
+
+          <td>
+            <input type="text" class="form-control" formControlName="hsn_sc">
+          </td>
+          <td>
+            <input type="number" class="form-control" formControlName="qty">
+          </td>
+
+          <td>
+            <input type="number" class="form-control" formControlName="val">
+          </td>
+          <td>
+            <input type="number" class="form-control" formControlName="txval">
+          </td>
+
+          <td class="fixrow">
+            <input type="number" readonly class="form-control" formControlName="itemTotal" [ngModel]="(hsnList.get('qty').value * hsnList.get('txval').value)+hsnList.get('camt').value + hsnList.get('samt').value +  hsnList.get('csamt').value ">
+          </td>
+          <td class="fixrow2">
+            <a *ngIf="sampleForm.controls['formArrayList'].controls.length > 1" (click)="deletehsnRow(i)">
+              Remove
+            </a>
+          </td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr>
+          <td colspan="3" class="tableadd gtext">
+            <a (click)="addHsnListItem()"> +Add another line</a>
+          </td>
+          <td colspan="3" align="right" class="gtext tableadd">
+            <a>Grand Total =</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <button type="submit" class="btn btn-success btnSave_data"> Save Data</button>
+</form>
